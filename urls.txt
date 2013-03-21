@@ -1,0 +1,7 @@
+
+# Initial demo app.
+
+@wrap :lambda x: x  
+
+/resource/{id}[/]
+    GET server:lo
