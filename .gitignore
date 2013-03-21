@@ -37,3 +37,5 @@ nosetests.xml
 # Virtual Env and (generated) HTML files.
 virt-env/
 *.html
+twistd.log
+twistd.pid
