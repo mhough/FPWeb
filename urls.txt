@@ -1,7 +1,8 @@
 
 # Initial demo app.
 
-@wrap :lambda x: x  
 
+# Put the specific content into the environ dict and serve it from an URL.
+@wrap server:content(resolve('pages:page'))
 /resource/{id}[/]
     GET server:lo
