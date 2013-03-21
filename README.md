@@ -6,7 +6,7 @@ methods.  So far the results are encouraging.  A lot of people have created
 software that makes this relatively straightforward.
 
 
-What's going on::
+What's going on:
 
     basket/  Dependencies stored for offline installation.
 
@@ -17,13 +17,13 @@ What's going on::
     main.py  Set URLS_FILE to point to urls.txt and fire up twistd (or whatever.)
 
 
-The generic parts::
+The generic parts:
 
     server.py - WSGI parts to serve pages.
     templates.py - "Templates" for HTML in Python.
 
 
-The specific parts::
+The specific parts:
 
     pages.py - Page content is in here.
     urls.txt - This drives the whole system,
@@ -32,7 +32,7 @@ The specific parts::
 
 
 
-If you install Twisted ("pip install twisted") you should be able to run the app with::
+If you install Twisted ("pip install twisted") you should be able to run the app with:
 
     export URLS_FILE=urls.txt
     twistd web --wsgi main.app --port 5000
