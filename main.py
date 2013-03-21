@@ -1,13 +1,6 @@
-import sys
-from wsgiref.simple_server import make_server
+import os
 import selector
 
 
-if __name__ == '__main__':
-  urls = sys.argv[-1]
-  s = selector.Selector()
-  s.slurp_file(urls)
-  
-  httpd = make_server('', 5000, s)
-  print "Serving on http://localhost:5000/ ..."
-  httpd.serve_forever()
+app = selector.Selector()
+app.slurp_file(os.environ['URLS_FILE'])
