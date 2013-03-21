@@ -1,4 +1,4 @@
-/home/sforman/Desktop/Gom/virtualenv-1.9rc1/virtualenv.py virt-env
+virtualenv virt-env
 source ./virt-env/bin/activate
 
 export BASKET_ROOT=`pwd`/basket
@@ -6,5 +6,3 @@ export LOCAL_PIP="pip install --no-index -f file://$BASKET_ROOT"
 
 $LOCAL_PIP Basket
 basket list | cut -f 1 -d " " | xargs $LOCAL_PIP
-
-
