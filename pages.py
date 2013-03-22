@@ -12,12 +12,20 @@ that's the idea.)
 CDN = 'http://cdnjs.cloudflare.com/ajax/libs/'
 
 
-def body(body, title, page_title, form, own_URL):
+def body(body, title, page_title, form, **extra):
   '''
   A simple body renderer.
   '''
   body.h1(page_title)
   form(body)
+
+
+home_page = dict(
+  title = 'Gazzian',
+  page_title = 'Brain-O-Scope',
+  body = body,
+  form = lambda foo, *a, **b: foo,
+  )
 
 
 def logout_form(c):
