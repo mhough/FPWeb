@@ -2,13 +2,12 @@
 # Initial Neuropost app.
 
 
-@wrap server:style(resolve('site_css:site_default'))
-/static/site.css
-    GET server:css
-
-
 @wrap server:content(resolve('pages:logout_page'))
 /logout[/]
     GET server:lo
 
+
+@wrap server:style(resolve('site_css:site_default'))
+/static/site.css
+    GET server:css
 
