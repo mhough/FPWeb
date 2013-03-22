@@ -42,7 +42,6 @@ def logout_form(c):
 
 
 logout_page = dict(
-  stylesheets = ('./static/site.css',),
   title = 'Gazzian Logout',
   page_title = 'Logout',
   body = body,
@@ -51,7 +50,13 @@ logout_page = dict(
 )
 
 
-
+login_page = dict(
+  title = 'Gazzian Login',
+  page_title = 'Login',
+  body = body,
+  form = logout_form,
+  own_URL = '/login',
+  )
 
 
 
