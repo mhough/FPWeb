@@ -13,6 +13,14 @@ def lo(environ, start_response):
   return base(**environ.get('PAGE', {}))
 
 
+def css(environ, start_response):
+  '''
+  Render a page in environ['PAGE'] using the base template.
+  '''
+  start_response('200 OK', [('content-type', 'text/css')])
+  return environ.get('CSS', 'NOT REALLY CSS YO!')
+
+
 def content(page):
   '''
   Modify a view function to set environ['PAGE'] = page.
@@ -26,3 +34,20 @@ def content(page):
       return view_function(environ, start_response)
     return a
   return decorator
+
+
+def style(css):
+  '''
+  Modify a view function to set environ['CSS'] = css.
+  '''
+  def decorator(view_function):
+    @wraps(view_function)
+    def a(environ, start_response):
+      print 'setting css!'
+      environ['CSS'] = css
+
+      return view_function(environ, start_response)
+    return a
+  return decorator
+
+
