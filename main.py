@@ -1,10 +1,8 @@
 import os
 import selector
+import urls
 
 
 app = selector.Selector()
-for fn in os.environ['URLS_FILE'].split(':'):
-  app.slurp_file(fn.strip())
-
-
-# URLS_FILE = resource.urls.txt:urls.txt
+for url in urls.everything:
+  url(app)

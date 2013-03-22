@@ -1,5 +1,0 @@
-
-@wrap server:envey(CSS=resolve('site_css:site_default'))
-/static/site.css
-    GET server:css
-
