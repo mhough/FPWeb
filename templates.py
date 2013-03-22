@@ -18,7 +18,7 @@ def base(title, extra_head=I, scripts=(), stylesheets=(), body=I, html=None, **b
 
   '''
   if html is None:
-    html = HTML('html')
+    html = HTML()
 
   with html.head as head:
     head.title(title)
@@ -35,6 +35,6 @@ def base(title, extra_head=I, scripts=(), stylesheets=(), body=I, html=None, **b
 
 
 if __name__ == '__main__':
-  from pages import page
+  from pages import logout_page
   print '<!DOCTYPE html>'
-  print base(**page)
+  print base(**logout_page)
