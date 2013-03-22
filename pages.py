@@ -12,30 +12,16 @@ that's the idea.)
 CDN = 'http://cdnjs.cloudflare.com/ajax/libs/'
 
 
-def my_ul(c, contents):
-  '''
-  Wrap the name, text pairs in contents in a UL element.
-  The name is put in a SPAN element with the class "heavy" and the text
-  gets " - " prepended to it.
-  '''
-  with c.ul as ul:
-    for name, text in contents:
-      li = ul.li
-      li.span(name.title(), class_='heavy')
-      li += ' - ' + text
-    return ul
-
-
 def body(body, title, page_title, form, own_URL):
   '''
   A simple body renderer.
   '''
   body.h1(page_title)
-  form(body.div(class_='container'))
+  form(body)
 
 
 def logout_form(c):
-  with c.form as f:
+  with c.form.div(class_='container') as f:
     f(action=logout_page['own_URL'], method='POST')
     f.input(value='Logout', type_='submit')
     return f
@@ -50,11 +36,31 @@ logout_page = dict(
 )
 
 
+def login_form(c):
+  with c.form as f:
+
+    f(action=login_page['own_URL'], method='POST')
+
+    with f.div(class_='container') as d:
+      d.h3('Login with your username')
+      d.input(id_='user', name='user', type_='text')
+      d.input(id_='pasw', name='pasw', type_='password')
+      d.input(value='Login', type_='submit')
+
+    with f.div(class_='container') as d:
+      d.h3('Login with OpenID')
+      d('OpenID: ')
+      d.input(name='openid', type_='text', size='30')
+      d.input(value='Sign in', type_='submit')
+
+    return f
+
+
 login_page = dict(
   title = 'Gazzian Login',
   page_title = 'Login',
   body = body,
-  form = logout_form,
+  form = login_form,
   own_URL = '/login',
   )
 
