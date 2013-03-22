@@ -21,31 +21,14 @@ def css(environ, start_response):
   return environ.get('CSS', 'NOT REALLY CSS YO!')
 
 
-def content(page):
+def envey(**kw):
   '''
-  Modify a view function to set environ['PAGE'] = page.
-  '''
-  def decorator(view_function):
-    @wraps(view_function)
-    def a(environ, start_response):
-
-      environ['PAGE'] = page
-
-      return view_function(environ, start_response)
-    return a
-  return decorator
-
-
-def style(css):
-  '''
-  Modify a view function to set environ['CSS'] = css.
+  Modify environ.
   '''
   def decorator(view_function):
     @wraps(view_function)
     def a(environ, start_response):
-
-      environ['CSS'] = css
-
+      environ.update(kw)
       return view_function(environ, start_response)
     return a
   return decorator

@@ -2,7 +2,7 @@
 # Initial Neuropost app.
 
 
-@wrap server:content(resolve('pages:logout_page'))
+@wrap server:envey(PAGE=resolve('pages:logout_page'))
 /logout[/]
     GET server:lo
 
