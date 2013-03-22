@@ -17,20 +17,27 @@ def body(body, title, page_title, form, **extra):
   A simple body renderer.
   '''
   body.h1(page_title)
-  form(body)
+  form(body, **extra)
+
+
+def home_html(c, subtitle, **extra):
+  c.h3(subtitle)
+  with c.div(class_='container') as d:
+    d('Some content!')
 
 
 home_page = dict(
   title = 'Gazzian',
   page_title = 'Brain-O-Scope',
+  subtitle = 'Human-Computer Neural Interface',
   body = body,
-  form = lambda foo, *a, **b: foo,
+  form = home_html,
   )
 
 
-def logout_form(c):
-  with c.form.div(class_='container') as f:
-    f(action=logout_page['own_URL'], method='POST')
+def logout_form(c, own_URL, **extra):
+  with c.div(class_='container').form as f:
+    f(action=own_URL, method='POST')
     f.input(value='Logout', type_='submit')
     return f
 
@@ -44,10 +51,10 @@ logout_page = dict(
 )
 
 
-def login_form(c):
+def login_form(c, own_URL, **extra):
   with c.form as f:
 
-    f(action=login_page['own_URL'], method='POST')
+    f(action=own_URL, method='POST')
 
     with f.div(class_='container') as d:
       d.h3('Login with your username')
@@ -56,8 +63,7 @@ def login_form(c):
       d.input(value='Login', type_='submit')
 
     with f.div(class_='container') as d:
-      d.h3('Login with OpenID')
-      d('OpenID: ')
+      d.h3('Login with OpenID').element.tail = 'OpenID: '
       d.input(name='openid', type_='text', size='30')
       d.input(value='Sign in', type_='submit')
 
