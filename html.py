@@ -275,10 +275,7 @@ class HTML(object):
             e = '\n'
         else:
             e = self.__class__(name, stack=self._stack)
-        if self._top:
-            self._stack[-1]._content.append(e)
-        else:
-            self._content.append(e)
+        self += e
         return e
 
     def __iadd__(self, other):
@@ -294,11 +291,7 @@ class HTML(object):
         '''
         if escape:
             text = cgi.escape(text)
-        # adding text
-        if self._top:
-            self._stack[-1]._content.append(text)
-        else:
-            self._content.append(text)
+        self += text
 
     def raw_text(self, text):
         '''Add raw, unescaped text to the document. This is useful for
@@ -322,14 +315,15 @@ class HTML(object):
                 self._content = list(map(cgi.escape, content))
             else:
                 self._content = content
+
         if 'newlines' in kw:
             # special-case to allow control over newlines
             self._newlines = kw.pop('newlines')
-        for k in kw:
-            if k == 'klass':
-                self._attrs['class'] = cgi.escape(kw[k], True)
-            else:
-                self._attrs[k] = cgi.escape(kw[k], True)
+
+        for k, v in kw.iteritems():
+            k = k.rstrip('_')
+            self._attrs[k] = cgi.escape(v, True)
+
         return self
 
     def __enter__(self):
