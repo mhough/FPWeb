@@ -43,7 +43,7 @@ def style(css):
   def decorator(view_function):
     @wraps(view_function)
     def a(environ, start_response):
-      print 'setting css!'
+
       environ['CSS'] = css
 
       return view_function(environ, start_response)
