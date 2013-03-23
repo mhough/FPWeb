@@ -63,7 +63,8 @@ def login_form(c, own_URL, **extra):
       d.input(value='Login', type_='submit')
 
     with f.div(class_='container') as d:
-      d.h3('Login with OpenID').element.tail = 'OpenID: '
+      d.h3('Login with OpenID')
+      d += 'OpenID: '
       d.input(name='openid', type_='text', size='30')
       d.input(value='Sign in', type_='submit')
 

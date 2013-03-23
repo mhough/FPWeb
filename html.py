@@ -19,7 +19,13 @@ class HTML(object):
 
     def _append(self, to, other):
         if isinstance(other, basestring):
-            if to.text is None:
+            if len(to):
+                last = to[-1]
+                if last.tail is None:
+                    last.tail = other
+                else:
+                    last.tail += other
+            elif to.text is None:
                 to.text = other
             else:
                 to.text += other
