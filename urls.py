@@ -17,8 +17,7 @@ def urls(app):
 
 
 def logins(app):
-  loggy = envey(PAGE=login_page)(oidapp)
-  app.add('/login[/]', GET=loggy, POST=loggy)
-  app.add(logout_page['own_URL'] + '[/]', GET=envey(PAGE=logout_page)(lo))
+  loggy = envey(PAGES=(login_page, logout_page))(oidapp)
+  app.add('/log|', GET=loggy, POST=loggy)
 
 everything = [urls, logins]

@@ -64,7 +64,7 @@ loapp = oidapp # Flask('LOGIN_APP')
 login_manager = LoginManager()
 login_manager.setup_app(loapp)
 
-#login_manager.login_view = "login"
+login_manager.login_view = "login"
 
 
 @login_manager.user_loader
@@ -76,17 +76,17 @@ def load_user(uid):
   return User.query.filter_by(id=uid).first()
 
 
-@oidapp.route("/", methods=["GET", "POST"])
+@oidapp.route("/in", methods=["GET", "POST"])
 @oid.loginhandler
 def login():
   with oidapp.app_context():
     if request.method == 'GET':
       if current_user.is_anonymous():
-        page_data = request.environ.get('PAGE', {})
+        page_data = request.environ.get('PAGES', [{}])[0]
         page_data['next'] = oid.get_next_url()
         page_data['error'] = oid.fetch_error()
         return str(base(**page_data))
-      return redirect('/logout')
+      return redirect('/log/out')
 
     open_id = request.form.get('openid')
     if open_id:
@@ -102,13 +102,14 @@ def login():
     return redirect('/Bah')
 
 
-#@app.route("/logout", methods=["GET", "POST"])
+@oidapp.route("/out", methods=["GET", "POST"])
 def logout():
   if not current_user.is_anonymous():
     if request.method == 'GET':
-      return render_template('logout.html')
+      page_data = request.environ.get('PAGES', [None, {}])[1]
+      return str(base(**page_data))
     logout_user()
-  return redirect('/login')
+  return redirect('/log/in')
 
 
 @oid.after_login
@@ -116,7 +117,7 @@ def after_login(response):
   email_address = response.email
   if not email_address:
     flash('Invalid login. Please try again.')
-    return redirect('/login')
+    return redirect('/log/in')
 
   user = User.query.filter_by(email=email_address).first()
   if not user:
