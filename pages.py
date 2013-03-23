@@ -47,7 +47,7 @@ logout_page = dict(
   page_title = 'Logout',
   body = body,
   form = logout_form,
-  own_URL = '/logout',
+  own_URL = '/log/out',
 )
 
 
@@ -75,7 +75,7 @@ login_page = dict(
   page_title = 'Login',
   body = body,
   form = login_form,
-  own_URL = '/login',
+  own_URL = '/log/in',
   )
 
 
