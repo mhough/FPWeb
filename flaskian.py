@@ -8,10 +8,13 @@ from flask.ext.login import (
   )
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.openid import OpenID
+from templates import base
+
 
 OPENID_STORE = '/tmp/oid.store'
 
-dbapp = Flask('DB_APP')
+
+dbapp = Flask(__name__)
 dbapp.secret_key = "I'm a fucking secret!"
 dbapp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 
@@ -52,11 +55,12 @@ class User(db.Model):
         return unicode(self.id)
 
 
-oidapp = Flask('OID_APP')
+oidapp = dbapp # Flask('OID_APP')
+oidapp.debug = True
 oid = OpenID(oidapp, OPENID_STORE)
 
 
-loapp = Flask('LOGIN_APP')
+loapp = oidapp # Flask('LOGIN_APP')
 login_manager = LoginManager()
 login_manager.setup_app(loapp)
 
@@ -72,33 +76,33 @@ def load_user(uid):
   return User.query.filter_by(id=uid).first()
 
 
-@app.route("/login", methods=["GET", "POST"])
+@oidapp.route("/", methods=["GET", "POST"])
 @oid.loginhandler
 def login():
-  if request.method == 'GET':
-    if current_user.is_anonymous():
-      return render_template(
-        'login.html',
-        next=oid.get_next_url(),
-        error=oid.fetch_error()
-        )
-    return redirect('/logout')
+  with oidapp.app_context():
+    if request.method == 'GET':
+      if current_user.is_anonymous():
+        page_data = request.environ.get('PAGE', {})
+        page_data['next'] = oid.get_next_url()
+        page_data['error'] = oid.fetch_error()
+        return str(base(**page_data))
+      return redirect('/logout')
 
-  open_id = request.form.get('openid')
-  if open_id:
-    return oid.try_login(open_id, ask_for=['email', 'fullname', 'nickname'])
+    open_id = request.form.get('openid')
+    if open_id:
+      return oid.try_login(open_id, ask_for=['email', 'fullname', 'nickname'])
 
-  username = request.form['user']
-  pw = request.form['pasw']
-  user = User.query.filter_by(name=username, password=pw).first()
+    username = request.form['user']
+    pw = request.form['pasw']
+    user = User.query.filter_by(name=username, password=pw).first()
 
-  if user:
-    login_user(user)
-    return redirect(oid.get_next_url() or '/')
-  return redirect('/Bah')
+    if user:
+      login_user(user)
+      return redirect(oid.get_next_url() or '/')
+    return redirect('/Bah')
 
 
-@app.route("/logout", methods=["GET", "POST"])
+#@app.route("/logout", methods=["GET", "POST"])
 def logout():
   if not current_user.is_anonymous():
     if request.method == 'GET':

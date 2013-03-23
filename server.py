@@ -26,7 +26,7 @@ def envey(**kw):
   Modify environ.
   '''
   def decorator(view_function):
-    @wraps(view_function)
+#    @wraps(view_function)
     def a(environ, start_response):
       environ.update(kw)
       return view_function(environ, start_response)
