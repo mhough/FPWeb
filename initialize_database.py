@@ -1,5 +1,5 @@
 import sys
-from flaskian import db, User
+from login_stuff import db, User
 if len(sys.argv) > 1 and raw_input('Drop tables? [yes/N] ') == 'yes':
   db.drop_all()
 db.create_all()

@@ -1,7 +1,7 @@
 from server import envey, lo, css
 from pages import home_page, login_page, logout_page
 from site_css import site_default
-from flaskian import oidapp
+from login_stuff import oidapp
 
 
 SITE_CSS_URL = '/static/site.css'
@@ -20,4 +20,6 @@ def logins(app):
   loggy = envey(PAGES=(login_page, logout_page))(oidapp)
   app.add('/log|', GET=loggy, POST=loggy)
 
+
 everything = [urls, logins]
+
