@@ -76,6 +76,19 @@ def load_user(uid):
   return User.query.filter_by(id=uid).first()
 
 
+@oidapp.route("/foo")
+@login_required
+def foo():
+  return 'Hey there'
+
+
+def require_login(view_function):
+  def vf(*a, **b):
+    with oidapp.app_context():
+      return login_required(view_function)(*a, **b)
+  return vf
+
+
 @oidapp.route("/in", methods=["GET", "POST"])
 @oid.loginhandler
 def login():

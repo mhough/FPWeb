@@ -26,6 +26,19 @@ def home_html(c, subtitle, **extra):
     d('Some content!')
 
 
+def dp_html(c, subtitle, **extra):
+  c.h3(subtitle)
+
+
+datapost = dict(
+  title = 'Gazzian',
+  page_title = 'Data Received',
+  subtitle = 'Click here to...',
+  body = body,
+  form = dp_html,
+  )
+
+
 home_page = dict(
   title = 'Gazzian',
   page_title = 'Brain-O-Scope',
