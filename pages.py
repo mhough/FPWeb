@@ -26,9 +26,8 @@ def home_html(c, subtitle, **extra):
     d('Some content!')
 
 
-def dp_html(c, subtitle, POSTDATA, **extra):
+def dp_html(c, subtitle, **extra):
   c.h3(subtitle)
-  c.pre(POSTDATA)
 
 
 datapost = dict(
