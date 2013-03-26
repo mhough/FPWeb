@@ -4,11 +4,10 @@ import requests
 from demodata import demodata
 
 
-for record in demodata['data']:
-  r = requests.post('http://localhost:5000/datapost', data=json.dumps(record))
-  assert r.status_code == 200, r.status_code
-  assert r.headers['content-type'] == 'text/html', r.headers['content-type']
-  print r.text
+r = requests.post('http://localhost:5000/datapost', data=json.dumps(demodata))
+assert r.status_code == 200, r.status_code
+assert r.headers['content-type'] == 'text/html', r.headers['content-type']
+print r.text
 
 
 print '-' * 70

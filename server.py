@@ -68,13 +68,9 @@ def postload(processor=I, error=lambda environ, start_response: None):
   return decorator
 
 
-def JSON_convert_and_post_to_DB(record_class, db, process=I):
-  def JSON_convert_and_post_to_DB_inner(data):
+def JSON_convert_and_process(process=I):
+  def JSON_convert_and_process_inner(data):
     data = json.loads(data)
-    data = process(data, record_class, db)
-    record = record_class(**data)
-    db.session.add(record)
-    db.session.commit()
-    return repr(data)
-  return JSON_convert_and_post_to_DB_inner
-
+    data = process(data)
+    return data
+  return JSON_convert_and_process_inner
