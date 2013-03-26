@@ -13,6 +13,17 @@ def lo(environ, start_response):
   return base(**environ.get('PAGE', {}))
 
 
+def plo(environ, start_response):
+  '''
+  Render a page in environ['PAGE'] using the base template.
+  '''
+  start_response('200 OK', [('content-type', 'text/html')])
+  page = environ.get('PAGE', {})
+  page['POSTDATA'] = wsgi.input.read()
+  print page['POSTDATA']
+  return base(**page)
+
+
 def css(environ, start_response):
   '''
   Render a page in environ['PAGE'] using the base template.

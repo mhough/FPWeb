@@ -1,4 +1,4 @@
-from server import envey, lo, css
+from server import envey, lo, plo, css
 from pages import home_page, login_page, logout_page, datapost
 from site_css import site_default
 from login_stuff import oidapp
@@ -13,7 +13,7 @@ for page in (home_page, login_page, logout_page):
 
 def urls(app):
   app.add('/', GET=envey(PAGE=home_page)(lo))
-  app.add('/datapost', POST=envey(PAGE=datapost)(lo))
+  app.add('/datapost', POST=envey(PAGE=datapost)(plo))
   app.add(SITE_CSS_URL, GET=envey(CSS=site_default)(css))
 
 
