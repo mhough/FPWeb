@@ -2,7 +2,7 @@
 Generic(-ish) view functions and WSGI apps and things to modify same.
 '''
 from functools import wraps
-from templates import base
+from templates import base, I
 
 
 def lo(environ, start_response):
@@ -49,3 +49,19 @@ def envey(**kw):
   return decorator
 
 
+def postload(processor=I, error=lambda environ, start_response: None):
+  '''
+  Load data from POST and process it, sticking the result in environ['POSTDATA'].
+  '''
+  def decorator(view_function):
+    def inner(environ, start_response):
+      page = environ.setdefault('PAGE', {})
+      postdata = environ.get('wsgi.input')
+      if not postdata:
+        pd = error(environ, start_response)
+      else:
+        pd = postdata.read(int(environ.get('CONTENT_LENGTH') or 0))
+      page['POSTDATA'] = processor(pd)
+      return view_function(environ, start_response)
+    return inner
+  return decorator
