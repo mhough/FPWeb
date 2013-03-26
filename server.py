@@ -19,8 +19,12 @@ def plo(environ, start_response):
   '''
   start_response('200 OK', [('content-type', 'text/html')])
   page = environ.get('PAGE', {})
-  pd = page['POSTDATA'] = environ['wsgi.input'].read()
-  print pd
+  postdata = environ.get('wsgi.input')
+  if not postdata:
+    page['POSTDATA'] = 'No Data!'
+  else:
+    page['POSTDATA'] = postdata.read(int(environ.get('CONTENT_LENGTH') or 0))
+  print page['POSTDATA']
   return base(**page)
 
 
