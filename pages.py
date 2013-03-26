@@ -20,12 +20,6 @@ def body(body, title, page_title, form, **extra):
   form(body, **extra)
 
 
-def home_html(c, subtitle, **extra):
-  c.h3(subtitle)
-  with c.div(class_='container') as d:
-    d('Some content!')
-
-
 def dp_html(c, subtitle, POSTDATA, **extra):
   c.h3(subtitle)
   c.pre(POSTDATA)
@@ -38,6 +32,12 @@ datapost = dict(
   body = body,
   form = dp_html,
   )
+
+
+def home_html(c, subtitle, **extra):
+  c.h3(subtitle)
+  with c.div(class_='container') as d:
+    d('Some content!')
 
 
 home_page = dict(

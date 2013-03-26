@@ -1,6 +1,7 @@
 '''
 Generic(-ish) view functions and WSGI apps and things to modify same.
 '''
+import json
 from functools import wraps
 from templates import base, I
 
@@ -65,3 +66,15 @@ def postload(processor=I, error=lambda environ, start_response: None):
       return view_function(environ, start_response)
     return inner
   return decorator
+
+
+def JSON_convert_and_post_to_DB(record_class, db, process=I):
+  def JSON_convert_and_post_to_DB_inner(data):
+    data = json.loads(data)
+    data = process(data, record_class, db)
+    record = record_class(**data)
+    db.session.add(record)
+    db.session.commit()
+    return repr(data)
+  return JSON_convert_and_post_to_DB_inner
+

@@ -1,8 +1,8 @@
 import json
-from server import envey, lo, css, postload
+from server import envey, lo, css, postload, JSON_convert_and_post_to_DB
 from pages import home_page, login_page, logout_page, datapost
 from site_css import site_default
-from login_stuff import oidapp
+from login_stuff import oidapp, db, RecordsYo
 
 
 SITE_CSS_URL = '/static/site.css'
@@ -14,7 +14,7 @@ for page in (home_page, login_page, logout_page):
 
 def urls(app):
   app.add('/', GET=envey(PAGE=home_page)(lo))
-  post_loader = postload(lambda data: repr(json.loads(data)))(lo)
+  post_loader = postload(JSON_convert_and_post_to_DB(RecordsYo, db))(lo)
   app.add('/datapost', POST=envey(PAGE=datapost)(post_loader))
   app.add(SITE_CSS_URL, GET=envey(CSS=site_default)(css))
 
