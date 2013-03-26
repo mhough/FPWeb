@@ -1,3 +1,4 @@
+import json
 from server import envey, lo, css, postload
 from pages import home_page, login_page, logout_page, datapost
 from site_css import site_default
@@ -13,7 +14,7 @@ for page in (home_page, login_page, logout_page):
 
 def urls(app):
   app.add('/', GET=envey(PAGE=home_page)(lo))
-  post_loader = postload()(lo)
+  post_loader = postload(lambda data: repr(json.loads(data)))(lo)
   app.add('/datapost', POST=envey(PAGE=datapost)(post_loader))
   app.add(SITE_CSS_URL, GET=envey(CSS=site_default)(css))
 
