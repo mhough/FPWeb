@@ -19,7 +19,7 @@ def plo(environ, start_response):
   '''
   start_response('200 OK', [('content-type', 'text/html')])
   page = environ.get('PAGE', {})
-  page['POSTDATA'] = wsgi.input.read()
+  page['POSTDATA'] = environ['wsgi.input'].read()
   print page['POSTDATA']
   return base(**page)
 
