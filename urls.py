@@ -19,7 +19,7 @@ studyID_to_record_class = {
 
 
 def process_batch(data):
-  record_class = data['studyID']
+  record_class = studyID_to_record_class[data['studyID']]
   for record in data['data']:
     record = record_class(**record)
     db.session.add(record)
