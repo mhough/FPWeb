@@ -12,9 +12,16 @@ for page in (home_page, login_page, logout_page):
   page.setdefault('stylesheets', []).append(SITE_CSS_URL)
 
 
+
+studyID_to_record_class = {
+  'meditrain': RecordsYo,
+  }
+
+
 def process_batch(data):
+  record_class = data['studyID']
   for record in data['data']:
-    record = RecordsYo(**record)
+    record = record_class(**record)
     db.session.add(record)
   db.session.commit()
   return repr(data)
